@@ -16,12 +16,39 @@ extends BaseController {
     implicit val expenseListJson = Json.format[Expense]
 
 
-    def getAll(): Action[AnyContent] = Action {
-        if (expenseList.isEmpty){
+    def getAll() =  Action {
+        if (expenseList.isEmpty){ 
             NoContent
         }else {
             Ok(Json.toJson(expenseList))
         }
+    }
+
+    def getById(expenseId: Long) = Action {
+        val found = expenseList.find(_.id == expenseId)
+        found match {
+            case Some(value) => Ok(Json.toJson(value))
+            case None => NotFound
+        }
+    }
+
+    def deleteExpense(expenseId: Long) = Action {
+        expenseList -= expenseList.find(_.id == expenseId).get
+        Ok(Json.toJson(expenseList))
+    }
+
+    def updateExpense() = Action { implicit request =>
+        val updatedExpense: Option[Expense] =  request.body.asJson.flatMap(Json.fromJson[Expense](_).asOpt)
+        val found = expenseList.find(_.id == updatedExpense.get.id)
+        found match {
+            case Some(value) => 
+                val newId = updatedExpense.get.id
+                expenseList.dropWhileInPlace(_.id == newId)
+                expenseList += updatedExpense.get
+                Accepted(Json.toJson(expenseList))
+            case None => NotFound
+        }
+
     }
 
     def addNewExpense() = Action { implicit request =>

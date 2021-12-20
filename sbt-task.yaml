@@ -1,20 +1,28 @@
----
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
   name: scala-sbt-task
-spec:
+ spec:
   params:
     - description: The workspace source directory
       name: CONTEXT_DIR
       type: string
+    - default: build
+      description: SBT Arguments
+      name: ARG
+      type: string
   steps:
-    - name: build-app
-      command:
-        - /bin/bash
-        - '-c'
-      args: 
-        - sbt build
-      workingDir: $(workspaces.source.path)/$(params.CONTEXT_DIR)
-      image: mozilla/sbt:latest
+    - env:
+        - name: SBT_ARG
+          value: $(params.ARG)
+      image: 'quay.io/rcmendes/scala-sbt:0.1'
+      name: build-app
+      resources: {}
+      script: |
+        #!/bin/bash
 
+        sbt ${SBT_ARG}
+      workingDir: $(workspaces.source.path)/$(params.CONTEXT_DIR)
+  workspaces:
+    - description: The workspace containing the scala App
+      name: source
