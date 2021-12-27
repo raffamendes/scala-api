@@ -2,7 +2,7 @@ apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
   name: scala-sbt-task
- spec:
+spec:
   params:
     - description: The workspace source directory
       name: CONTEXT_DIR
@@ -15,7 +15,7 @@ metadata:
     - env:
         - name: SBT_ARG
           value: $(params.ARG)
-      image: 'quay.io/rcmendes/scala-sbt:0.1'
+      image: 'quay.io/rcmendes/scala-sbt:0.2'
       name: build-app
       resources: {}
       script: |
