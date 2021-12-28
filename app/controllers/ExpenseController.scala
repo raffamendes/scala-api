@@ -66,4 +66,14 @@ extends BaseController {
         
     }
 
+    def totalExpenses() = Action (
+         if (expenseList.isEmpty){ 
+            NoContent
+        }else {
+            Ok(Json.toJson(expenseList.map(_.amount).sum))
+        }
+    )
+
+
+
 }
