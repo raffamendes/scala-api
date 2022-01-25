@@ -5,10 +5,11 @@
 
 # An example controller showing a sample home page
 GET     /expenses                           controllers.ExpenseController.getAll()
+GET     /expenses/version                   controllers.ExpenseController.getVersion()
 POST    /expenses/create                    controllers.ExpenseController.addNewExpense()
 GET     /expenses/:expenseId                controllers.ExpenseController.getById(expenseId: Long)
 PUT     /expenses/update                    controllers.ExpenseController.updateExpense()
-DELETE  /expenses/:expenseId                    controllers.ExpenseController.deleteExpense(expenseId: Long)
+DELETE  /expenses/:expenseId                controllers.ExpenseController.deleteExpense(expenseId: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
