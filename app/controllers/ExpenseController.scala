@@ -24,6 +24,10 @@ extends BaseController {
         }
     }
 
+    def getVersion() = Action {
+        Ok("Versão v2")
+    }
+
     def getById(expenseId: Long) = Action {
         val found = expenseList.find(_.id == expenseId)
         found match {

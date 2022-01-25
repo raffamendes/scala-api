@@ -5,6 +5,7 @@
 
 # An example controller showing a sample home page
 GET     /expenses                           controllers.ExpenseController.getAll()
+GET     /expenses/version                   controllers.ExpenseController.getVersion()
 POST    /expenses/create                    controllers.ExpenseController.addNewExpense()
 GET     /expenses/byId/:expenseId           controllers.ExpenseController.getById(expenseId: Long)
 PUT     /expenses/update                    controllers.ExpenseController.updateExpense()
