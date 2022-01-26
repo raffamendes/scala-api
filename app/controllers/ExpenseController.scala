@@ -25,6 +25,7 @@ extends BaseController {
     }
 
     def getVersion() = Action {
+        println("-----------------------------------Request Ok")
         Ok("Versão v2")
     }
 
