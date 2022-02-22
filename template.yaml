@@ -1,0 +1,106 @@
+kind: Template
+apiVersion: template.openshift.io/v1
+metadata:
+  name: Scala
+  annotations:
+    description: "An app Template"
+    openshift.io/display-name: "Scala-API"
+    version: "0.1"
+objects:
+  - kind: BuildConfig
+    apiVersion: build.openshift.io/v1
+    metadata:
+      name: ${APP_NAME}
+    spec:
+      nodeSelector: null
+      output:
+        to:
+          kind: ImageStreamTag
+          name: '${APP_NAME}:${TAG}'
+      successfulBuildsHistoryLimit: 5
+      failedBuildsHistoryLimit: 5
+      strategy:
+        type: Source
+        sourceStrategy:
+          from:
+            kind: ImageStreamTag
+            name: 'scala-sbt:0.2'
+      source:
+        type: Binary
+      runPolicy: Serial
+  - kind: ImageStream
+    apiVersion: image.openshift.io/v1
+    metadata:
+      name: ${APP_NAME}
+    spec:
+      tags:
+        - name: ${TAG}      
+  - kind: DeploymentConfig
+    apiVersion: apps.openshift.io/v1
+    metadata:
+      name: ${APP_NAME}
+    spec:
+      strategy:
+        type: Rolling
+      triggers:
+        - type: ImageChange
+          imageChangeParams:
+            automatic: false
+            containerNames:
+              - ${APP_NAME}
+            from:
+              kind: ImageStreamTag
+              name: '${APP_NAME}:${TAG}'
+      replicas: 1
+      selector:
+        deploymentconfig: ${APP_NAME}
+      template:
+        metadata:
+          labels:
+            deploymentconfig: ${APP_NAME}
+        spec:
+          containers:
+            - name: ${APP_NAME}
+              image: ${APP_NAME}:${TAG}
+              command:
+                - /bin/bash
+              args:
+                - /deployments/scala-api-1.0-SNAPSHOT/bin/scala-api
+                - '-Dplay.http.secret.key=abcdefghijklmno'
+              imagePullPolicy: IfNotPresent
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      name: '${APP_NAME}'
+    spec:
+      ports:
+        - port: 9000
+          protocol: TCP
+          targetPort: 9000
+      selector:
+        deploymentconfig: '${APP_NAME}'
+  - apiVersion: route.openshift.io/v1
+    kind: Route
+    metadata:
+      name: '${APP_NAME}'
+    spec:
+      host: '${HOSTNAME}'
+      to:
+        kind: Service
+        name: '${APP_NAME}'
+parameters:
+  - name: APP_NAME
+    description: This is the APP name given to all the objects created on this template
+    displayName: App Name
+    required: true
+  - name: HOSTNAME
+    description: The hostname for the route created
+    displayname: Hostname for the application to be accessed outside the cluster
+    value: ""
+  - name: TAG
+    description: The image TAG
+    displayName: The image TAG
+    value: latest
+  
+
+
