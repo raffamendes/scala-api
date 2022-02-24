@@ -29,7 +29,7 @@ pipeline {
                     failOnCriticalPluginError: true,
                     failOnPolicyEvalFailure: true,
                     portalAddress: 'https://central.acs-central.svc.cluster.local:443',
-                    imageNames: "image-registry.openshift-image-registry.svc:5000/scala-api/jenkins-teste:latest"
+                    imageNames: "scala-api/jenkins-teste:latest"
 
                 )
             }
