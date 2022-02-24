@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sbt('default', 'dist',null,null,null,null)
+                sh 'sbt dist'
             }
         }
     }
