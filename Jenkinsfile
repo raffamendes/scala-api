@@ -7,7 +7,12 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh 'sbt version'
+                sh 'sbt dist'
+            }
+        }
+        stage('create ocp objects') {
+            steps {
+                sh 'oc version'
             }
         }
     }
