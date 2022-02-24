@@ -1,5 +1,5 @@
 pipeline {
-    agent  any
+    agent  {label 'sbt-agent'}
     stages {
         stage('build') {
             steps {
