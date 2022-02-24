@@ -17,7 +17,7 @@ pipeline {
         }
         stage('build image') {
             steps {
-                sh 'oc start-build jenkins-teste --from-archive=target/universal/scala-api-1.0-SNAPSHOT.zip --wait=true'
+                sh 'oc start-build jenkins-teste --from-archive=target/universal/scala-api-1.0-SNAPSHOT.zip --wait=true -n scala-api'
             }
         }
     }
