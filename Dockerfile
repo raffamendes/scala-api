@@ -9,7 +9,7 @@ RUN rm -f /etc/yum.repos.d/bintray-rpm.repo && \
     sbt help && \    
     microdnf clean all    && rm -rf /var/cache/
 
-USER jboss
+USER 1001
 
 
 ENTRYPOINT ["/bin/sh", "-c"]
