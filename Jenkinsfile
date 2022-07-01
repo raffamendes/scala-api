@@ -12,7 +12,7 @@ pipeline {
         }
         stage('create ocp objects') {
             steps {
-                sh 'oc process -f template.yaml -p APP_NAME=jenkins-teste | oc -n scala-api apply -f - '
+                sh 'oc process -f template.yaml -p APP_NAME=jenkins-teste | oc apply -f - '
             }
         }
         stage('build image') {
