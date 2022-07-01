@@ -28,8 +28,8 @@ pipeline {
                     enableTLSVerification: false,
                     failOnCriticalPluginError: true,
                     failOnPolicyEvalFailure: true,
-                    portalAddress: 'https://central.acs-central.svc.cluster.local:443',
-                    imageNames: "default-route-openshift-image-registry.apps.cluster-5b29.5b29.example.opentlc.com/scala-api/jenkins-teste:latest"
+                    portalAddress: 'https://central.acs.svc.cluster.local:443',
+                    imageNames: "default-route-openshift-image-registry.apps.dam-iptu-1.latam-1.rht-labs.com/jenkins/jenkins-teste:latest"
 
                 )
             }
